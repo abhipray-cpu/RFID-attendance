@@ -15,8 +15,8 @@ saal = []
 section = []
 attd = ["Absent", "Present"]
 usn_year = [18, 19, 20, 21]
-usn_Branch = ['CS', 'IS', 'EC', 'EE', 'ME', 'IP', 'CV', 'Mtech', 'MCA']
-semester = ['1', '2', '3', '4', '5', '6', '7', '8']
+usn_Branch = ['CS', 'IS', 'EC', 'EE', 'ME', 'IP', 'CV', 'MT', 'MC']
+semester = [1, 2, 3, 4, 5, 6, 7, 8]
 
 for i in range(1000):
     name.append(fake.name())
@@ -61,17 +61,12 @@ result = []
 USN = []
 for key in Usn.keys():
     USN.append(key)
-for el in date_data:
-    for i in range(0, len(name)):
-        result.append({"dates": el['date'],
-                       "month": el['month'],
-                       'year': el['year'],
-                       'attendance': random.choice(['Present', 'Absent']),
-                       "name": name[i],
-                       "usn": USN[i],
-                       "branch": branchList[i],
-                       "sem": sem[i],
-                       "section": section[i]
+for i in range(0, len(name)):
+    result.append({"name": name[i],
+                    "usn": USN[i],
+                    "branch": branchList[i],
+                    "sem": sem[i],
+                    "section": section[i]
                        })
 res = json.dumps(result)
 

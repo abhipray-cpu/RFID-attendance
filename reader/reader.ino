@@ -1,0 +1,156 @@
+//importing required libraries
+#include <SPI.h>
+#include <MFRC522.h>
+#include<ESP8266WiFi.h>
+#include<FirebaseESP8266.h>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
+
+//defining reset and sda pins
+constexpr uint8_t RST_PIN = 16;        // Define pin D0 for the RST pin
+constexpr uint8_t SDA_PIN = 15;        // Define pin D8 for the SDA pin
+
+//wifi credentials
+#define WIFI_SSID "Heavy Driver"
+#define WIFI_PASSWORD "maakabhosda"
+#define FIREBASE_AUTH "J7zZWSjFYt1VW2h3Y6SgGz8JW7okCe1qrYYEnEe0"
+#define FIREBASE_HOST "channel-relay-control-3a865-default-rtdb.asia-southeast1.firebasedatabase.app/"
+
+//authorization details
+byte readCard[4];
+String tagID = "";
+
+//this is the firebase realted object instantiatio
+FirebaseData firebaseData;
+FirebaseJson json;
+FirebaseData fbdo;
+
+const long utcOffsetInSeconds = 3600;
+
+char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+String months[12]={"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+// Define NTP Client to get time
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP, "pool.ntp.org", utcOffsetInSeconds);
+MFRC522 mfrc522(SDA_PIN, RST_PIN);  // Create MFRC522 instance
+MFRC522::MIFARE_Key key;
+MFRC522::StatusCode status;
+String USN = ""; //this will be used for storing USN of the student
+void setup() {
+  
+  Serial.begin(115200);
+  WiFi.begin(WIFI_SSID,WIFI_PASSWORD);
+  Serial.print("Connecting to Wi-Fi");
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    Serial.print(".");
+    delay(300);
+  }
+   Serial.println();
+   Serial.print("Connected with IP: ");
+   Serial.println(WiFi.localIP());
+   Serial.println(); 
+   Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
+   timeClient.begin();
+  while (!Serial);  // Do nothing if no serial port is opened
+  SPI.begin();    // Initialize SPI bus
+  mfrc522.PCD_Init(); // Initialize MFRC522
+  timeClient.setTimeOffset(19800); //since time zone gmt+5
+}
+
+void loop() 
+{  
+ // Prepare key - all keys are set to FFFFFFFFFFFFh at chip delivery from the factory.
+  for (byte i = 0; i < 6; i++) key.keyByte[i] = 0xFF;
+  timeClient.update();
+  //Wait until new tag is available
+  while (getUID()) 
+  { 
+    //Get a time structure
+  time_t epochTime = timeClient.getEpochTime();
+  struct tm *ptm = gmtime ((time_t *)&epochTime); 
+  int monthDay = ptm->tm_mday;
+  int currentMonth = ptm->tm_mon+1;
+  String currentMonthName = months[currentMonth-1];
+  int currentYear = ptm->tm_year+1900;
+  String currentDate = String(currentYear) + "-" + String(currentMonth) + "-" + String(monthDay);
+  
+    //this is the time stamp info that will be used for finding the attendance of the user
+    json.set("CardId",tagID);
+    json.set("time",timeClient.getFormattedTime());
+    String weekDay = daysOfTheWeek[timeClient.getDay()];
+    json.set("day",weekDay);
+    json.set("month",currentMonth);
+    json.set("year",currentYear);
+    json.set("date",currentDate);
+    json.set("room",420); //later if you are using multiple readers assign id to each reader
+    json.set("USN",USN);
+
+ 
+    //need to configure some extra info for real world application
+    /*
+    1)Id of the RFID card reader to get the reader details
+    2)Granting access mechanism to ensure that RFID card is a vaild one to grant permission
+    3)Need to write some extra info the RIFD card
+    
+    */
+     if (Firebase.pushJSON(fbdo, "/attendance", json))
+     {
+       Serial.println(fbdo.dataPath());
+       Serial.println(fbdo.pushName());
+       Serial.println(fbdo.dataPath() + "/"+ fbdo.pushName());
+     }
+     else 
+     {
+  Serial.println(fbdo.errorReason());
+   }
+  delay(2000);
+
+  }
+}
+  
+    boolean getUID() 
+  {
+     byte block;
+     byte len;
+     byte buffer1[18];
+     block = 2;
+     len = 18;
+    // Getting ready for reading Tags
+    if ( ! mfrc522.PICC_IsNewCardPresent()) { 
+      //If a new tag is placed close to the RFID reader, continue
+    return false;
+    }
+    if ( ! mfrc522.PICC_ReadCardSerial()) {     //When a tag is placed, get UID and continue
+    return false;
+    }
+    tagID = "";
+    for ( uint8_t i = 0; i < 4; i++) {                  // The MIFARE tag in use has a 4 byte UID
+    tagID.concat(String(mfrc522.uid.uidByte[i], HEX));  // Adds the 4 bytes in a single string variable
+    }
+   //USE key B while reading a specific block since key A will give a NAK error
+      status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_B, block, &key, &(mfrc522.uid));
+if (status != MFRC522::STATUS_OK) {
+      Serial.print(F("Reading failed: "));
+      Serial.println(mfrc522.GetStatusCodeName(status));
+      return false;
+     }
+
+      status = mfrc522.MIFARE_Read(block, buffer1, &len);
+      if (status != MFRC522::STATUS_OK) {
+      Serial.print(F("Reading failed: "));
+      Serial.println(mfrc522.GetStatusCodeName(status));
+      return false;
+     }
+ USN="";
+   for (uint8_t i = 0; i < 16; i++)
+ {
+    USN += (char)buffer1[i];
+  }
+    USN.trim();
+    tagID.toUpperCase();
+    mfrc522.PICC_HaltA(); // Stop reading
+    return true;
+  }
+
+ 

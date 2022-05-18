@@ -17,10 +17,9 @@ try:
         'databaseURL': f"{os.environ['DATABASE_URI']}"
     })
     # declaring the collection objects
-    store = db.reference('/students')
+    store = db.reference('/attendance')
 except Exception as e:
     print(e)
-
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -34,17 +33,18 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle('Attendance Register')
         self.stopThreads = False
         self.attdArray = []
-        self.generalVal = {}
-        self.branch.currentIndexChanged.connect(self.branchListener)
-        self.semester.currentIndexChanged.connect(self.semListener)
-        self.section.currentIndexChanged.connect(self.sectionListener)
+        self.readData()
+        # self.branch.currentIndexChanged.connect(self.branchListener)
+        # self.semester.currentIndexChanged.connect(self.semListener)
+        # self.section.currentIndexChanged.connect(self.sectionListener)
         self.search.clicked.connect(self.searchStudent)
+        self.refresh.clicked.connect(self.refreshAction)
+        # self.filters = {"branch": "", "semester": "", "section": ""}
 
     # this is the util function that will actually get the data
     def readData(self):
-        self.attdArray=[]
+        self.attdArray = []
         for val in store.get():
-            print(val)
             self.attdArray.append(val)
 
     # this function will keep on reading the data
@@ -64,24 +64,21 @@ class MainWindow(QtWidgets.QMainWindow):
             self.table.setRowCount(len(self.attdArray))
             row = 0
             for item in self.attdArray:
+                value = self.attdArray[item]
                 col = 0
-                self.table.setItem(row, col, QTableWidgetItem(f'{item["dates"]}'))
+                self.table.setItem(row, col, QTableWidgetItem(f'{value["date"]}'))
                 col = col+1
-                self.table.setItem(row, col, QTableWidgetItem(f'{item["month"]}'))
+                self.table.setItem(row, col, QTableWidgetItem(f'{value["day"]}'))
                 col = col+1
-                self.table.setItem(row, col, QTableWidgetItem(f'{item["year"]}'))
+                self.table.setItem(row, col, QTableWidgetItem(f'{value["month"]}'))
                 col = col+1
-                self.table.setItem(row, col, QTableWidgetItem(f'{item["usn"]}'))
+                self.table.setItem(row, col, QTableWidgetItem(f'{value["year"]}'))
                 col = col+1
-                self.table.setItem(row, col, QTableWidgetItem(f'{item["name"]}'))
+                self.table.setItem(row, col, QTableWidgetItem(f'{value["time"]}'))
                 col = col+1
-                self.table.setItem(row, col, QTableWidgetItem(f'{item["sem"]}'))
+                self.table.setItem(row, col, QTableWidgetItem(f'{value["room"]}'))
                 col = col+1
-                self.table.setItem(row, col, QTableWidgetItem(f'{item["attendance"]}'))
-                col = col+1
-                self.table.setItem(row, col, QTableWidgetItem(f'{item["branch"]}'))
-                col = col+1
-                self.table.setItem(row, col, QTableWidgetItem(f'{item["section"]}'))
+                self.table.setItem(row, col, QTableWidgetItem(f'{value["USN"]}'))
                 row = row + 1
         except Exception as error:
             print(error)
@@ -95,71 +92,80 @@ class MainWindow(QtWidgets.QMainWindow):
                 break
 
     # this function is for grouped query
-    def generalQuery(self):
-        try:
-            field = self.generalVal['field']
-            value = self.generalVal['value']
-            print(field, value)
-            temp_arr = []
-            for val in self.attdArray:
-                if val[f'{field}'] == value:
-                    temp_arr.append(val)
-            self.attdArray = []
-            for val in temp_arr:
-                self.attdArray.append(val)
-        except Exception as error:
-            print(error)
-
-    def branchListener(self):
-        self.generalVal = {"field": 'branch', "value": self.branch.currentText()}
-        self.generalQuery()
-
-    def semListener(self):
-        self.generalVal = {"field": 'sem', "value": self.semester.currentText()}
-        self.generalQuery()
-
-    def sectionListener(self):
-        self.generalVal = {"field": 'section', "value": self.section.currentText()}
-        self.generalQuery()
+    # def generalQuery(self):
+    #     try:
+    #         self.attdArray = store.get()
+    #         if self.filters['branch'] != "":
+    #             self.attdArray = self.filter(self.attdArray, 'branch', self.filters['branch'])
+    #         if self.filters['semester'] != "":
+    #             self.attdArray = self.filter(self.attdArray, 'sem', int(self.filters['semester']))
+    #         if self.filters['section'] != "":
+    #             self.attdArray = self.filter(self.attdArray, 'section', self.filters['section'])
+    #
+    #     except Exception as error:
+    #         print(error)
+    #
+    # def filter(self, arr: list, field: str, value: str) -> list:
+    #     dummy = []
+    #     for val in arr:
+    #         if val[f'{field}'] == value:
+    #             dummy.append(val)
+    #     return dummy
+    #
+    # def branchListener(self):
+    #     try:
+    #         self.filters['branch'] = self.branch.currentText()
+    #         self.generalQuery()
+    #
+    #     except Exception as error:
+    #         print(error)
+    #
+    # def semListener(self):
+    #     try:
+    #         self.filters['semester'] = self.semester.currentText()
+    #         self.generalQuery()
+    #
+    #     except Exception as error:
+    #         print(error)
+    #
+    # def sectionListener(self):
+    #     try:
+    #         self.filters['section'] = self.section.currentText()
+    #         self.generalQuery()
+    #
+    #     except Exception as error:
+    #         print(error)
 
     # this function is for search query
     def searchStudent(self):
-        name = self.name.text()
         usn = self.usn.text()
         try:
-            if name != "" and usn != "":
+            if usn != "":
                 self.attdArray = store.get()
                 temp_arr = []
                 for val in self.attdArray:
-                    if val['name'] == name and val['usn'] == usn:
-                        temp_arr.append(val)
-                self.attdArray = []
-                for val in temp_arr:
-                    self.attdArray.append(val)
-            elif name !="" and usn == "":
-                self.attdArray = store.get()
-                temp_arr = []
-                for val in self.attdArray:
-                    if val['name'] == name:
-                        temp_arr.append(val)
-                self.attdArray = []
-                for val in temp_arr:
-                    self.attdArray.append(val)
-            elif name == "" and usn != "":
-                self.attdArray = store.get()
-                temp_arr = []
-                for val in self.attdArray:
-                    if val['usn'] == usn:
-                        temp_arr.append(val)
+                    value = self.attdArray[val]
+                    if value['USN'] == usn:
+                        temp_arr.append(value)
                 self.attdArray = []
                 for val in temp_arr:
                     self.attdArray.append(val)
             else:
                 self.attdArray = store.get()
 
+            self.usn.setText("")
 
         except Exception as error:
             print(error)
+
+    def refreshAction(self):
+        self.attdArray = store.get()
+        # self.filters['branch'] = ""
+        # self.filters['section'] = ""
+        # self.filters['semester'] = ""
+        # self.branch.setCurrentIndex = 0
+        # self.semester.setCurrentIndex = 0
+        # self.section.setCurrentIndex = 0
 
 
 def mainFn():
@@ -170,7 +176,7 @@ def mainFn():
     Thread(target=main.getData).start()
     Thread(target=main.writeTable).start()
     Thread(target=main.updateTable).start()
-    Thread(target=main.generalQuery).start()
+    # Thread(target=main.generalQuery).start()
     Thread(target=main.searchStudent).start()
     Thread(target=main.show()).start()
     sys.exit(exitApp())
