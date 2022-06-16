@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: qlineargradient(spread:pad, x1:0.632, y1:0.613, x2:1, y2:0, stop:0.0447761 rgba(238, 133, 172, 255), stop:0.497512 rgba(249, 170, 179, 255), stop:0.850746 rgba(255, 100, 170, 255));</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
@@ -29,7 +32,8 @@
        <item>
         <widget class="QLabel" name="label_6">
          <property name="styleSheet">
-          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+          <string notr="true">font: 14pt &quot;Mongolian Baiti&quot;;
+background-color: rgba(255, 255, 255, 0);</string>
          </property>
          <property name="text">
           <string>USN</string>
@@ -39,7 +43,8 @@
        <item>
         <widget class="QLabel" name="usnVal">
          <property name="styleSheet">
-          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+          <string notr="true">font: 14pt &quot;Mongolian Baiti&quot;;
+background-color: rgba(255, 255, 255, 0);</string>
          </property>
          <property name="text">
           <string>4NI19EC003</string>
@@ -53,7 +58,8 @@
        <item>
         <widget class="QLabel" name="label_2">
          <property name="styleSheet">
-          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+          <string notr="true">font: 14pt &quot;Mongolian Baiti&quot;;
+background-color: rgba(255, 255, 255, 0);</string>
          </property>
          <property name="text">
           <string>NAME</string>
@@ -63,7 +69,8 @@
        <item>
         <widget class="QLabel" name="nameVal">
          <property name="styleSheet">
-          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+          <string notr="true">font: 14pt &quot;Mongolian Baiti&quot;;
+background-color: rgba(255, 255, 255, 0);</string>
          </property>
          <property name="text">
           <string>Abhipray Dumka</string>
@@ -77,7 +84,8 @@
        <item>
         <widget class="QLabel" name="label_5">
          <property name="styleSheet">
-          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+          <string notr="true">font: 14pt &quot;Mongolian Baiti&quot;;
+background-color: rgba(255, 255, 255, 0);</string>
          </property>
          <property name="text">
           <string>Branch</string>
@@ -87,7 +95,8 @@
        <item>
         <widget class="QLabel" name="branchVal">
          <property name="styleSheet">
-          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+          <string notr="true">font: 14pt &quot;Mongolian Baiti&quot;;
+background-color: rgba(255, 255, 255, 0);</string>
          </property>
          <property name="text">
           <string>EC</string>
@@ -101,7 +110,8 @@
        <item>
         <widget class="QLabel" name="label_3">
          <property name="styleSheet">
-          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+          <string notr="true">font: 14pt &quot;Mongolian Baiti&quot;;
+background-color: rgba(255, 255, 255, 0);</string>
          </property>
          <property name="text">
           <string>Current Semester</string>
@@ -111,7 +121,8 @@
        <item>
         <widget class="QLabel" name="semVal">
          <property name="styleSheet">
-          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+          <string notr="true">font: 14pt &quot;Mongolian Baiti&quot;;
+background-color: rgba(255, 255, 255, 0);</string>
          </property>
          <property name="text">
           <string>6</string>
@@ -125,7 +136,8 @@
        <item>
         <widget class="QLabel" name="label_4">
          <property name="styleSheet">
-          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+          <string notr="true">font: 14pt &quot;Mongolian Baiti&quot;;
+background-color: rgba(255, 255, 255, 0);</string>
          </property>
          <property name="text">
           <string>Section</string>
@@ -135,7 +147,8 @@
        <item>
         <widget class="QLabel" name="sectionVal">
          <property name="styleSheet">
-          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+          <string notr="true">font: 14pt &quot;Mongolian Baiti&quot;;
+background-color: rgba(255, 255, 255, 0);</string>
          </property>
          <property name="text">
           <string>A</string>
@@ -154,6 +167,13 @@
       <width>901</width>
       <height>431</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 13pt &quot;Mongolian Baiti&quot;;
+</string>
+    </property>
+    <property name="gridStyle">
+     <enum>Qt::DashDotDotLine</enum>
     </property>
     <column>
      <property name="text">
@@ -217,7 +237,8 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+     <string notr="true">font: 13pt &quot;Mongolian Baiti&quot;;
+background-color: rgba(255, 255, 255, 0);</string>
     </property>
     <property name="text">
      <string>Total Lectures </string>
@@ -233,7 +254,8 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+     <string notr="true">font: 13pt &quot;Mongolian Baiti&quot;;
+background-color: rgba(255, 255, 255, 0);</string>
     </property>
     <property name="text">
      <string>6969</string>
@@ -249,7 +271,8 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+     <string notr="true">font: 11pt &quot;Mongolian Baiti&quot;;
+</string>
     </property>
     <property name="text">
      <string>Search Date</string>
@@ -265,7 +288,8 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+     <string notr="true">font: 13pt &quot;Mongolian Baiti&quot;;
+background-color: rgba(255, 255, 255, 0);</string>
     </property>
     <property name="text">
      <string>Semester</string>
@@ -281,7 +305,8 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+     <string notr="true">font: 13pt &quot;Mongolian Baiti&quot;;
+</string>
     </property>
     <item>
      <property name="text">

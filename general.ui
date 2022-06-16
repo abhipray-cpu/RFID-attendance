@@ -14,7 +14,8 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+   <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+background-color: qlineargradient(spread:pad, x1:0.632, y1:0.613, x2:1, y2:0, stop:0.0447761 rgba(238, 133, 172, 255), stop:0.497512 rgba(249, 170, 179, 255), stop:0.850746 rgba(255, 100, 170, 255));</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTableWidget" name="tableWidget">
@@ -25,6 +26,13 @@
       <width>901</width>
       <height>721</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+font: 14pt &quot;Mongolian Baiti&quot;;</string>
+    </property>
+    <property name="gridStyle">
+     <enum>Qt::DashDotDotLine</enum>
     </property>
     <column>
      <property name="text">
@@ -65,20 +73,21 @@
    <widget class="QPushButton" name="refresh">
     <property name="geometry">
      <rect>
-      <x>820</x>
+      <x>810</x>
       <y>830</y>
       <width>93</width>
       <height>28</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+     <string notr="true">
+font: 14pt &quot;Mongolian Baiti&quot;;</string>
     </property>
     <property name="text">
      <string>Refresh</string>
     </property>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget">
+   <widget class="QFrame" name="horizontalFrame">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -87,9 +96,16 @@
       <height>80</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+    </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="label">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(255, 255, 255, 0);
+font: 14pt &quot;Mongolian Baiti&quot;;</string>
+       </property>
        <property name="text">
         <string>Branch</string>
        </property>
@@ -97,6 +113,10 @@
      </item>
      <item>
       <widget class="QComboBox" name="branchCombo">
+       <property name="styleSheet">
+        <string notr="true">background-color: qlineargradient(spread:pad, x1:0.632, y1:0.613, x2:1, y2:0, stop:0.0447761 rgba(238, 133, 172, 255), stop:0.497512 rgba(249, 170, 179, 255), stop:0.850746 rgba(255, 100, 170, 255));
+font: 14pt &quot;Mongolian Baiti&quot;;</string>
+       </property>
        <item>
         <property name="text">
          <string>CS</string>
@@ -146,7 +166,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_2">
+   <widget class="QFrame" name="horizontalFrame_2">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -155,9 +175,16 @@
       <height>80</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+    </property>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="label_2">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(255, 255, 255, 0);
+font: 14pt &quot;Mongolian Baiti&quot;;</string>
+       </property>
        <property name="text">
         <string>Sem</string>
        </property>
@@ -165,6 +192,10 @@
      </item>
      <item>
       <widget class="QComboBox" name="semCombo">
+       <property name="styleSheet">
+        <string notr="true">background-color: qlineargradient(spread:pad, x1:0.632, y1:0.613, x2:1, y2:0, stop:0.0447761 rgba(238, 133, 172, 255), stop:0.497512 rgba(249, 170, 179, 255), stop:0.850746 rgba(255, 100, 170, 255));
+font: 14pt &quot;Mongolian Baiti&quot;;</string>
+       </property>
        <item>
         <property name="text">
          <string>1</string>
@@ -209,7 +240,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_3">
+   <widget class="QFrame" name="horizontalFrame_3">
     <property name="geometry">
      <rect>
       <x>400</x>
@@ -218,9 +249,16 @@
       <height>80</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+    </property>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QLabel" name="label_3">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(255, 255, 255, 0);background-color: rgba(255, 255, 255, 0);
+font: 14pt &quot;Mongolian Baiti&quot;;</string>
+       </property>
        <property name="text">
         <string>Section</string>
        </property>
@@ -228,6 +266,10 @@
      </item>
      <item>
       <widget class="QComboBox" name="sectionCombo">
+       <property name="styleSheet">
+        <string notr="true">background-color: qlineargradient(spread:pad, x1:0.632, y1:0.613, x2:1, y2:0, stop:0.0447761 rgba(238, 133, 172, 255), stop:0.497512 rgba(249, 170, 179, 255), stop:0.850746 rgba(255, 100, 170, 255));
+font: 14pt &quot;Mongolian Baiti&quot;;</string>
+       </property>
        <item>
         <property name="text">
          <string>A</string>
@@ -247,7 +289,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_4">
+   <widget class="QFrame" name="horizontalFrame_4">
     <property name="geometry">
      <rect>
       <x>630</x>
@@ -256,9 +298,16 @@
       <height>80</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+    </property>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
       <widget class="QLabel" name="label_4">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgba(255, 255, 255, 0);background-color: rgba(255, 255, 255, 0);
+font: 14pt &quot;Mongolian Baiti&quot;;</string>
+       </property>
        <property name="text">
         <string>Year</string>
        </property>
@@ -266,6 +315,10 @@
      </item>
      <item>
       <widget class="QComboBox" name="yearCombo">
+       <property name="styleSheet">
+        <string notr="true">background-color: qlineargradient(spread:pad, x1:0.632, y1:0.613, x2:1, y2:0, stop:0.0447761 rgba(238, 133, 172, 255), stop:0.497512 rgba(249, 170, 179, 255), stop:0.850746 rgba(255, 100, 170, 255));
+font: 14pt &quot;Mongolian Baiti&quot;;</string>
+       </property>
        <item>
         <property name="text">
          <string>2018</string>

@@ -39,6 +39,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # self.section.currentIndexChanged.connect(self.sectionListener)
         self.search.clicked.connect(self.searchStudent)
         self.refresh.clicked.connect(self.refreshAction)
+
         # self.filters = {"branch": "", "semester": "", "section": ""}
 
     # this is the util function that will actually get the data
