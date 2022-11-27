@@ -9,7 +9,7 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 /* Create an instance of MIFARE_Key */
 MFRC522::MIFARE_Key key;          
 //writing data to block 2
-int blockNum = 12;  
+int blockNum = 10;  
 //this is the data which will be written to the rfid card
 byte blockData [16] = {"4NI19EC003"};
 

@@ -9,14 +9,29 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 /* Create an instance of MIFARE_Key */
 MFRC522::MIFARE_Key key;          
 //writing data to block 2
-int blockNum = 12;  
+int USN = 2;  
+int fistName = 10;
+int lastName = 11;
+int class_ = 12;
+int lab1 = 13;
+int lab2 = 14;
 //this is the data which will be written to the rfid card
-byte blockData [16] = {"4NI19EC003"};
+byte USN_WRITE [16] = {"4NI18IS101"};
+byte firstNameWrite[16] = {"Abhipray"};
+byte lastNameWrite[16] = {"Dumka"};
+byte classWrite[16] = {"403"};
+byte lab1Write[16] = {"311"};
+byte lab2Write[16] = {"908"};
 
 /* Create another array to read data from Block */
 /* Length of buffer should be 2 Bytes more than the size of Block (16 Bytes) */
 byte bufferLen = 18;
-byte readBlockData[18];
+byte USN_READ[18];
+byte firstNameRead[18];
+byte lastNameRead[18];
+byte classRead[18];
+byte lab1Read[18];
+byte lab2Read[18];
 
 MFRC522::StatusCode status;
 
@@ -68,26 +83,36 @@ void loop()
          
    /* Call 'WriteDataToBlock' function, which will write data to the block */
    Serial.print("\n");
-  Serial.println("Writing to Data Block...");
-   WriteDataToBlock(blockNum, blockData);
+   Serial.println("Writing to Data Block 9 ...");
+   WriteDataToBlock(USN, USN_WRITE);
+
+   //Serial.print("\n");
+    //Serial.println("Writing first name to data block10...");
+    //WriteDataToBlock(fistName, firstNameWrite);
+    
+    //Serial.print("\n");
+    //Serial.println("Writing last name to data block11...");
+    //WriteDataToBlock(lastName, lastNameWrite);
+
+    //Serial.print("\n");
+    //Serial.println("Writing class to data block12...");
+    //WriteDataToBlock(class_, classWrite);
+
+    //Serial.print("\n");
+    //Serial.println("Writing lab1 to data block13...");
+    //WriteDataToBlock(lab1, lab1Write);
+
+    //Serial.print("\n");
+    //Serial.println("Writing lab2 to data block14...");
+    //WriteDataToBlock(lab2, lab2Write);
    
    /* Read data from the same block */
    Serial.print("\n");
    Serial.println("Reading from Data Block...");
-   ReadDataFromBlock(blockNum, readBlockData);
+   ReadDataFromBlock(USN, USN_READ);
    /* If you want to print the full memory dump, uncomment the next line */
    //mfrc522.PICC_DumpToSerial(&(mfrc522.uid));
    
-   /* Print the data read from block */
-   Serial.print("\n");
-   Serial.print("Data in Block:");
-   Serial.print(blockNum);
-   Serial.print(" --> ");
-   for (int j=0 ; j<16 ; j++)
-   {
-     Serial.write(readBlockData[j]);
-   }
-   Serial.print("\n");
 }
 
 
@@ -95,7 +120,7 @@ void loop()
 void WriteDataToBlock(int blockNum, byte blockData[]) 
 {
   /* Authenticating the desired data block for write access using Key A */
-  status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, blockNum, &key, &(mfrc522.uid));
+  status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_B, blockNum, &key, &(mfrc522.uid));
   if (status != MFRC522::STATUS_OK)
   {
     Serial.print("Authentication failed for Write: ");
@@ -149,7 +174,17 @@ void ReadDataFromBlock(int blockNum, byte readBlockData[])
   }
   else
   {
-    Serial.println("Block was read successfully");  
+    Serial.println("Block was read successfully");
+    /* Print the data read from block */
+   Serial.print("\n");
+   Serial.print("Data in Block:");
+   Serial.print(blockNum);
+   Serial.print(" --> ");
+   for (int j=0 ; j<16 ; j++)
+   {
+     Serial.write(readBlockData[j]);
+   }
+   Serial.print("\n");
   }
   
 }

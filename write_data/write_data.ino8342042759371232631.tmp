@@ -11,7 +11,7 @@ MFRC522::MIFARE_Key key;
 //writing data to block 2
 int blockNum = 12;  
 //this is the data which will be written to the rfid card
-byte blockData [16] = {"4NI19EC003"};
+byte blockData [16] = {"4NI18IS101"};
 
 /* Create another array to read data from Block */
 /* Length of buffer should be 2 Bytes more than the size of Block (16 Bytes) */
@@ -69,7 +69,7 @@ void loop()
    /* Call 'WriteDataToBlock' function, which will write data to the block */
    Serial.print("\n");
   Serial.println("Writing to Data Block...");
-   WriteDataToBlock(blockNum, blockData);
+   //WriteDataToBlock(blockNum, blockData);
    
    /* Read data from the same block */
    Serial.print("\n");

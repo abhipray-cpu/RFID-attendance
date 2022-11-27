@@ -1,4 +1,3 @@
-//importing required libraries
 #include <SPI.h>
 #include <MFRC522.h>
 #include<ESP8266WiFi.h>
@@ -6,19 +5,6 @@
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 
-/*
-These are the connections that are used
-Reader    Node mcu
-SDA       D8
-SCK       D5
-MOSI      D7
-MISO      D6
-IRQ       _
-GND       
-RST       D0
-3.3v
-
-*/
 //defining reset and sda pins
 constexpr uint8_t RST_PIN = 16;        // Define pin D0 for the RST pin
 constexpr uint8_t SDA_PIN = 15;        // Define pin D8 for the SDA pin
@@ -77,7 +63,7 @@ void loop()
   for (byte i = 0; i < 6; i++) key.keyByte[i] = 0xFF;
   timeClient.update();
   //Wait until new tag is available
-  if (getUID()) 
+  while (getUID()) 
   { 
     //Get a time structure
   time_t epochTime = timeClient.getEpochTime();
@@ -140,6 +126,8 @@ void loop()
     tagID = "";
     for ( uint8_t i = 0; i < 4; i++) {                  // The MIFARE tag in use has a 4 byte UID
     tagID.concat(String(mfrc522.uid.uidByte[i], HEX));  // Adds the 4 bytes in a single string variable
+    Serial.println("This is the id of the card just read!");
+    Serial.print(tagID);
     }
    //USE key B while reading a specific block since key A will give a NAK error
       status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_B, block, &key, &(mfrc522.uid));
@@ -165,5 +153,3 @@ if (status != MFRC522::STATUS_OK) {
     mfrc522.PICC_HaltA(); // Stop reading
     return true;
   }
-
- 

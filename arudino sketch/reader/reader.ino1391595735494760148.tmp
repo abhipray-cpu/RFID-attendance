@@ -1,0 +1,91 @@
+//importing required libraries
+#include <SPI.h>
+#include <MFRC522.h>
+/*
+These are the connections that are used
+Reader    Node mcu
+SDA       D8
+SCK       D5
+MOSI      D7
+MISO      D6
+IRQ       _
+GND       
+RST       D0
+3.3v
+
+*/
+//defining reset and sda pins
+constexpr uint8_t RST_PIN = 16;        // Define pin D0 for the RST pin
+constexpr uint8_t SDA_PIN = 15;        // Define pin D8 for the SDA pin
+
+
+//authorization details
+byte readCard[4];
+String tagID = "";
+
+MFRC522 mfrc522(SDA_PIN, RST_PIN);  // Create MFRC522 instance
+MFRC522::MIFARE_Key key;
+MFRC522::StatusCode status;
+void setup() {
+  
+  Serial.begin(115200);
+  mfrc522.PCD_Init(); // Initialize MFRC522
+}
+
+void loop() 
+{  
+ // Prepare key - all keys are set to FFFFFFFFFFFFh at chip delivery from the factory.
+  for (byte i = 0; i < 6; i++) key.keyByte[i] = 0xFF;
+  //Wait until new tag is available
+  if (getUID()) 
+  { 
+    Serial.println("THis is the UID of the RFID tag");
+    Serial.print(tagID);
+  delay(4000);
+
+  }
+  else
+  {
+    Serial.println("No card is detected!");
+    }
+}
+  
+    boolean getUID() 
+  {
+     byte block;
+     byte len;
+     byte buffer1[18];
+     block = 2;
+     len = 18;
+    // Getting ready for reading Tags
+    if ( ! mfrc522.PICC_IsNewCardPresent()) { 
+      //If a new tag is placed close to the RFID reader, continue
+      Serial.println("New card detected!");
+      tagID = "";
+    for ( uint8_t i = 0; i < 4; i++) {                  // The MIFARE tag in use has a 4 byte UID
+    tagID.concat(String(mfrc522.uid.uidByte[i], HEX));  // Adds the 4 bytes in a single string variable
+    }
+   //USE key B while reading a specific block since key A will give a NAK error
+      status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_B, block, &key, &(mfrc522.uid));
+if (status != MFRC522::STATUS_OK) {
+      Serial.print(F("Reading failed: "));
+      Serial.println(mfrc522.GetStatusCodeName(status));
+      return false;
+     }
+
+      status = mfrc522.MIFARE_Read(block, buffer1, &len);
+      if (status != MFRC522::STATUS_OK) {
+      Serial.print(F("Reading failed: "));
+      Serial.println(mfrc522.GetStatusCodeName(status));
+      return false;
+     }
+    return true;
+    }
+    if ( ! mfrc522.PICC_ReadCardSerial()) {     //When a tag is placed, get UID and continue
+    Serial.println("Same card chl nikal mc!!");
+    return false;
+    }
+    
+  }
+
+ 

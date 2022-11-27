@@ -9,9 +9,9 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 /* Create an instance of MIFARE_Key */
 MFRC522::MIFARE_Key key;          
 //writing data to block 2
-int blockNum = 12;  
+int blockNum = 4;  
 //this is the data which will be written to the rfid card
-byte blockData [16] = {"4NI19EC003"};
+byte blockData [16] = {"Abhipray"};
 
 /* Create another array to read data from Block */
 /* Length of buffer should be 2 Bytes more than the size of Block (16 Bytes) */
